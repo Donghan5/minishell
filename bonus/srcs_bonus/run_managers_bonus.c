@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_managers_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:12:25 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/26 13:20:47 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/27 12:28:25 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ t_glob_pipe	*skipper(t_glob_pipe *t, t_env *e, int mode, int set_priority)
 	static int		skip_next;
 	static int		priority;
 
-
 	if (mode == 2)
 		return (skip_next = 0, priority = 0, NULL);
 	if (set_priority > -1)
@@ -89,15 +88,16 @@ t_glob_pipe	*skipper(t_glob_pipe *t, t_env *e, int mode, int set_priority)
 			t = t->next;
 		while (skip_next == 2 && t)
 		{
-			if (t->priority < priority)
+			if (t->priority < priority
+				&& (t->previous && t->previous->op == AND))
 				break ;
 			t = t->next;
 		}
 		return (skip_next = 0, t);
 	}
-	if (t && t->op == AND && e->sts != 0)
+	if (t->op == AND && e->sts != 0)
 		skip_next = 1;
-	if (t && t->op == OR && e->sts == 0)
+	if (t->op == OR && e->sts == 0)
 		skip_next = 2;
 	return (NULL);
 }
