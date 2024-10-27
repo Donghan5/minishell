@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_managers_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:12:25 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/27 12:28:25 by ubuntu           ###   ########.fr       */
+/*   Updated: 2024/10/27 14:22:44 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,26 +78,46 @@ t_glob_pipe	*skipper(t_glob_pipe *t, t_env *e, int mode, int set_priority)
 	static int		skip_next;
 	static int		priority;
 
+	printf("Entering skipper: mode=%d, set_priority=%d, skip_next=%d, priority=%d\n", mode, set_priority, skip_next, priority);
+
 	if (mode == 2)
+	{
+		printf("Resetting skip_next and priority\n");
 		return (skip_next = 0, priority = 0, NULL);
+	}
 	if (set_priority > -1)
+	{
+		printf("Updating priority to %d\n", set_priority);
 		return (priority = set_priority, NULL);
+	}
 	if (mode == 1)
 	{
+		printf("Skipping mode: skip_next=%d, priority=%d\n", skip_next, priority);
 		if (skip_next == 1 && t->priority == priority)
-			t = t->next;
-		while (skip_next == 2 && t)
 		{
-			if (t->priority < priority
-				&& (t->previous && t->previous->op == AND))
-				break ;
+			printf("Skipping one command with priority %d\n", priority);
 			t = t->next;
 		}
+		while (skip_next == 2 && t)
+		{
+			if (t->priority < priority && (t->previous && t->previous->op == AND))
+				break;
+			printf("Skipping command with priority %d\n", t->priority);
+			t = t->next;
+		}
+		printf("Exiting skipping mode\n");
 		return (skip_next = 0, t);
 	}
 	if (t->op == AND && e->sts != 0)
+	{
+		printf("Setting skip_next to 1 due to AND operation and non-zero status\n");
 		skip_next = 1;
+	}
 	if (t->op == OR && e->sts == 0)
+	{
+		printf("Setting skip_next to 2 due to OR operation and zero status\n");
 		skip_next = 2;
+	}
+	printf("Exiting skipper\n");
 	return (NULL);
 }
