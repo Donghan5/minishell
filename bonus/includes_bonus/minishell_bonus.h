@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/21 21:23:25 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/27 19:59:15 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ typedef struct s_glob_pipe
 	struct s_glob_pipe	*previous;
 	int					pid;
 	int					priority;
+	int					paren_id;
 }				t_glob_pipe;
 
 /*
@@ -148,7 +149,8 @@ typedef struct termios \
 void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // run_managers.c
-t_glob_pipe		*skipper(t_glob_pipe *t, t_env *e, int mode, int set_priority);
+t_glob_pipe		*skipper(t_glob_pipe *t, t_env *e, int mode);
+t_glob_pipe		*skipping_mode(t_glob_pipe *t, int skip_next);
 void			children_manager(int pid, t_env *env, int wait, int reset);
 
 // expander_heredoc.c

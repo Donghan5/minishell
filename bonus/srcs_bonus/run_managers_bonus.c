@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_managers_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:12:25 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/27 17:51:04 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/27 20:13:21 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,12 @@ t_glob_pipe	*skipping_mode(t_glob_pipe *t, int skip_next)
 		priority = t->previous->priority;
 		paren_id = t->previous->paren_id;
 	}
-	while (t && skip_next == 1 && t->priority >= priority)
-	{
-		if (t->previous && t->previous->op == OR)
-			break ;
-		t = t->next;
-	}
-	while (skip_next == 2 && t)
+	while (t && skip_next)
 	{
 		if ((t->priority <= priority
 				&& (t->paren_id == paren_id || !t->paren_id || !paren_id))
-			&& (t->previous && t->previous->op == AND))
+			&& ((t->previous && t->previous->op == OR && skip_next == 1)
+				|| (t->previous && t->previous->op == AND && skip_next == 2)))
 			break ;
 		t = t->next;
 	}
@@ -88,11 +83,9 @@ t_glob_pipe	*skipping_mode(t_glob_pipe *t, int skip_next)
 	Skipping:
 		Checking skip_next and returning t_glob_pipe t command
 		after skipping commands which should not be run.
-		If skipping mode was 1 it will skip all next commands with the
-		same priority as the "t" given or higher.
-		If skipping mode was 2 it will skip all commands with higher than
-		"t" priority, without preceding AND (&&), or the whole parenthesis
-		of the same priority.
+		With skipping mode set it will skip all commands with higher than
+		previous "t" priority without preceding AND (skipping mode 2) or OR
+		(skipping mode 1), or the whole parenthesis of the same priority.
 	Reset:
 		Resets internal static ints to 0.
 	Update internal priority:
@@ -111,7 +104,8 @@ t_glob_pipe	*skipper(t_glob_pipe *t, t_env *e, int mode)
 		return (skip_next = 0, NULL);
 	if (mode == 1)
 	{
-		t = skipping_mode(t, skip_next);
+		if (skip_next)
+			t = skipping_mode(t, skip_next);
 		return (skip_next = 0, t);
 	}
 	if (t && t->op == AND && e->sts != 0)

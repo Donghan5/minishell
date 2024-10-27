@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_global_pipeline_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:10:24 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/18 22:10:36 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/27 20:01:12 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ int	process_picker(t_glob_pipe *t, t_env *e, int *prev)
 */
 void	pipeline_cycle(t_glob_pipe *t, int *prev, t_env *e)
 {
-	skipper(NULL, NULL, 2, -1);
+	skipper(NULL, NULL, 2);
 	while (t)
 	{
-		t = skipper(t, e, 1, -1);
+		t = skipper(t, e, 1);
 		if (!t)
 			break ;
 		no_execs(t, e, prev);
@@ -70,9 +70,9 @@ void	pipeline_cycle(t_glob_pipe *t, int *prev, t_env *e)
 		if (t->op != PIPE || !t->next)
 		{
 			children_manager(0, e, 1, 0);
-			skipper(t, e, 0, -1);
+			skipper(t, e, 0);
 		}
-		skipper(NULL, NULL, 0, t->priority);
+		skipper(NULL, NULL, 0);
 		t = t->next;
 	}
 	children_manager(0, NULL, 0, 1);
