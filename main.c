@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 00:58:35 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/25 18:59:05 by pzinurov         ###   ########.fr       */
+/*   Updated: 2024/10/29 16:59:39 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,3 +149,7 @@ int	main(int argc, char **argv, char **envp)
 	rl_clear_history();
 	return (free_doub_array(env.environ), 1);
 }
+
+
+
+/* https://cplusplus.com/files/tutorial.pdf cpp documentation */
