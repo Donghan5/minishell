@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/19 12:29:45 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:39:26 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,8 @@ void			no_execs(t_glob_pipe *temp_cmd,
 
 // run_global_pipeline.c
 void			smart_close(int fd);
-void			run_global_pipeline(t_glob_pipe **cmds_start, t_env *env);
+void			run_global_pipeline(t_glob_pipe **cmds_start,
+					t_env *env, int non_int_fd);
 
 // free.c
 int				print_file_err(char *filename);

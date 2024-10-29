@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_bonus.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pzinurov <pzinurov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 01:02:57 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/27 19:59:15 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:37:18 by pzinurov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,6 @@ void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // run_managers.c
 t_glob_pipe		*skipper(t_glob_pipe *t, t_env *e, int mode);
-t_glob_pipe		*skipping_mode(t_glob_pipe *t, int skip_next);
 void			children_manager(int pid, t_env *env, int wait, int reset);
 
 // expander_heredoc.c
@@ -187,7 +186,8 @@ int				no_execs(t_glob_pipe *temp_cmd, t_env *env, int *prev_pipe);
 
 // run_global_pipeline.c
 void			smart_close(int fd);
-void			run_global_pipeline(t_glob_pipe **cmds_start, t_env *env);
+void			run_global_pipeline(t_glob_pipe **cmds_start,
+					t_env *env, int non_int_fd);
 
 // free.c
 int				print_file_err(char *filename);
@@ -242,6 +242,7 @@ int				is_operator(char *token);
 int				is_paren(char **token);
 
 // parsing_fill_args.c
+t_glob_pipe		*new_glob_pipe(t_glob_pipe	*prev);
 int				fill_args(char ***toks, t_glob_pipe **tmp, int n, int start_i);
 
 // parsing.c
