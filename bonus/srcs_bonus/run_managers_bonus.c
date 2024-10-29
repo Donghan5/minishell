@@ -6,7 +6,7 @@
 /*   By: donghank <donghank@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 20:12:25 by pzinurov          #+#    #+#             */
-/*   Updated: 2024/10/28 00:08:37 by donghank         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:53:33 by donghank         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,10 @@ t_glob_pipe	*skipping_mode(t_glob_pipe *t, int skip_next)
 	if (t->previous)
 	{
 		priority = t->previous->priority;
-		printf("previous priority: %d\n", priority);
 		paren_id = t->previous->paren_id;
-		printf("previous paren_id: %d\n", paren_id);
 	}
 	while (t && skip_next)
 	{
-		printf("current priority: %d, current paren_id: %d\n", t->priority, t->paren_id);
 		if ((t->priority <= priority
 				&& (t->paren_id == paren_id || !t->paren_id || !paren_id))
 			&& ((t->previous && t->previous->op == OR && skip_next == 1)
